@@ -1,0 +1,24 @@
+{
+  "name": "b13-a5-github-issue-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s546863s/B13-A5-Github-Issue-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s546863s/B13-A5-Github-Issue-Tracker/issues"
+  },
+  "homepage": "https://github.com/s546863s/B13-A5-Github-Issue-Tracker#readme",
+  "dependencies": {
+    "daisyui": "^5.5.19",
+    "tailwindcss": "^4.2.1"
+  }
+}
