@@ -1,0 +1,28 @@
+[
+  {
+    "email": "admin",
+    "password": "admin123"
+  },
+
+  
+  {
+    "email": "salam",
+    "password": "salam123"
+  },
+  {
+    "email": "fahim",
+    "password": "fahim123"
+  },
+  {
+    "email": "safin",
+    "password": "safin123"
+  },
+  {
+    "email": "munna",
+    "password": "munna123"
+  },
+  {
+    "email": "hafas",
+    "password": "hafas123"
+  }
+]
