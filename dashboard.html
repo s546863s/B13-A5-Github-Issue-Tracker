@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Git Issue</title>
+    <title>GitHub Issues Tracker</title>
     <link
       rel="shortcut icon"
       href="./assets/github-logo.png"
@@ -23,53 +23,34 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- google fonts Link  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
   </head>
-  <body>
-    <!-- NavBar Started here -->
-    <nav>
+<body>
+   <!-- NavBar Started here -->
+  <nav>
       <div class="navbar bg-base-100 shadow-sm">
-        <div class="flex-1">
-          <a class="btn btn-ghost text-xl">daisyUI</a>
-        </div>
-        <div class="flex gap-2">
-          <input
-            type="text"
-            placeholder="Search"
-            class="input input-bordered"
-          />
-          <div class="dropdown dropdown-end">
-            <div
-              tabindex="0"
-              role="button"
-              class="btn btn-ghost btn-circle avatar"
-            >
-              <div class=" ">
-                <button class="btn btn-primary">Search</button>
-              </div>
-            </div>
-            <ul
-              tabindex="-1"
-              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <a class="justify-between">
-                  Profile
-                  <span class="badge">New</span>
-                </a>
-              </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul>
-          </div>
-        </div>
+  <div class="flex-1">
+   <a href="/dashboard.html">
+    <div class="flex items-center gap-2">
+    <img width="70" src="./assets/github-logo.png" alt="Logo">
+    <h1 class="text-2xl font-bold ">GitHub Issues Tracker</h1>
+   </div>
+   </a>
+  </div>
+  <div class="flex gap-2 justify-center items-center">
+    <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+    <div >
+      <div >
+        <button class="btn btn-primary">Search</button>
       </div>
-    </nav>
-    <!-- Navbar ended here -->
-  </body>
+     
+    </div>
+  </div>
+</div>
+  </nav>
+<!-- Navbar ended here -->
+</body>
 </html>
