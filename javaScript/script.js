@@ -361,6 +361,8 @@ function displayIssueInModal(issue) {
         <ul class="text-xl text-gray-500 list-disc" >
         <li>${status?.toUpperCase() || 'UNKNOWN'} by ${formattedAuthor}</li>
         </ul>
+
+
     
     </div>
       <!-- Priority Badge -->
