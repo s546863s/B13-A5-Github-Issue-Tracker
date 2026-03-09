@@ -269,3 +269,256 @@ function performSearch() {
       `;
     });
 }
+
+
+// ============ মডেল ফাংশনালিটি ============
+
+// সিঙ্গেল ইস্যু ডাটা ফেচ করে মডেলে দেখানোর ফাংশন
+async function fetchAndShowIssue(issueId) {
+  const modal = document.getElementById('issue_modal');
+  const modalContent = document.getElementById('modal-content');
+  
+  // মডেল ওপেন করুন এবং লোডিং দেখান
+  modal.showModal();
+  modalContent.innerHTML = `
+    <div class="flex justify-center items-center py-10">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+  `;
+
+  try {
+    // API কল করুন
+    const response = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    
+    if (result.status === 'success' && result.data) {
+      displayIssueInModal(result.data);
+    } else {
+      throw new Error('Invalid data format');
+    }
+    
+  } catch (error) {
+    console.error('Error fetching issue:', error);
+    modalContent.innerHTML = `
+      <div class="text-center text-red-500 p-8">
+        <p>ডাটা লোড করতে সমস্যা হয়েছে</p>
+        <p class="text-sm mt-2">${error.message}</p>
+      </div>
+    `;
+  }
+}
+
+// মডেলে ইস্যু ডাটা দেখানোর ফাংশন
+function displayIssueInModal(issue) {
+  const modalContent = document.getElementById('modal-content');
+  
+  const {
+    id,
+    title,
+    description,
+    status,
+    labels,
+    priority,
+    author,
+    assignee,
+    createdAt,
+    updatedAt
+  } = issue;
+
+  // ডেট ফরম্যাটিং
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // অথর ফরম্যাটিং
+  const formattedAuthor = author ? author.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : 'Unknown';
+  const formattedAssignee = assignee ? assignee.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : 'Not assigned';
+
+  modalContent.innerHTML = `
+    <div class="space-y-6">
+      <!-- Header with Status Badge -->
+      <div class="flex justify-between items-start">
+        <h3 class="text-2xl font-bold">${title || 'No Title'}</h3>
+        
+      </div>
+    <div class="flex items-center gap-8">
+    
+    <span class="badge ${status === 'open' ? 'badge-success' : 'badge-info'} badge-lg">
+          ${status?.toUpperCase() || 'UNKNOWN'}
+        </span>
+
+        <ul class="text-xl text-gray-500 list-disc" >
+        <li>${status?.toUpperCase() || 'UNKNOWN'} by ${formattedAuthor}</li>
+        </ul>
+    
+    </div>
+      <!-- Priority Badge -->
+      <div class="flex gap-2">
+        <span class="badge badge-warning bg-[#FECACA] text-[#EF4444] px-4 py-2 font-bold">
+          Priority: ${priority?.toUpperCase() || 'N/A'}
+        </span>
+      </div>
+
+      <!-- Description -->
+      <div class="bg-base-200 p-4 rounded-lg">
+        <p class="text-lg">${description || 'No description available.'}</p>
+      </div>
+
+      <!-- Labels -->
+      ${labels && labels.length > 0 ? `
+        <div>
+          <h4 class="font-semibold mb-2">Labels:</h4>
+          <div class="flex flex-wrap gap-2">
+            ${labels.map(label => `
+              <span class="badge badge-outline badge-lg">${label}</span>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Author and Assignee Info here -->
+      <div class="grid grid-cols-2 gap-4 bg-base-100 p-4 rounded-lg border">
+        <div>
+          <p class="text-sm text-gray-500">Author</p>
+          <p class="font-semibold">${formattedAuthor}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Assignee</p>
+          <p class="font-semibold">${formattedAssignee}</p>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="text-sm text-gray-500 space-y-1 border-t pt-4">
+        <p> Created: ${formatDate(createdAt)}</p>
+        <p> Last Updated: ${formatDate(updatedAt)}</p>
+      </div>
+
+      <!-- Issue ID -->
+      <div class="text-xs text-gray-400 text-right border-t pt-2">
+        Issue ID: ${id}
+      </div>
+    </div>
+  `;
+}
+
+//  displayIssues  
+// existing displayIssues 
+function displayIssues(issues) {
+  issueCounter.innerText = issues.length; 
+  
+  // Update issue count based on the displayed issues
+  const container = document.getElementById("card-container");
+  container.innerHTML = "";
+  
+  issues.forEach(issue => {
+    const { id, title, description, status, labels, priority, author, updatedAt } = issue;
+    const isOpen = status === "open";
+
+    const card = document.createElement("div");
+    card.classList.add(
+      "card",
+      "bg-base-100",
+      "shadow-sm",
+      "cursor-pointer", 
+      "hover:shadow-lg", 
+      "transition-shadow", 
+      ...(isOpen 
+        ? ["border-t-4", "border-green-300"] 
+        : ["border-t-4", "border-blue-300"]
+      )
+    );
+    
+    
+    card.addEventListener('click', () => {
+      fetchAndShowIssue(id);
+    });
+    
+    // author formating
+    const formattedAuthor = author ? author.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : "Unknown Author";
+    
+    // Date formetin
+    let formattedDate = "No date";
+    let formattedTime = "";
+    
+    if (updatedAt) {
+      try {
+        const date = new Date(updatedAt);
+        formattedDate = date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        formattedTime = date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      } catch (e) {
+        console.error("Date formatting error:", e);
+      }
+    }
+    
+    // priority 
+    const priorityText = priority ? priority.toUpperCase() : "N/A";
+    
+    card.innerHTML = `
+      <div class="card-body">
+        <div class="flex justify-between">
+          <span class="flex items-center gap-2">
+            ${status === "open" 
+              ? '<img width="22" src="./assets/Open-Status.png" alt="Open">' 
+              : '<img width="22" src="./assets/Closed-Status.png" alt="Closed">'
+            }
+          </span>
+          <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">
+            ${priorityText}
+          </span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <h2 class="text-3xl font-bold">${title || 'No Title'}</h2>
+          <p>${description || 'No Description'}</p>
+        </div>
+        <div class="mt-6 flex justify-between flex-wrap gap-2">
+          ${labels && labels[0] ? `
+            <button class="btn bg-[#FECACA] hover:btn-accent text-[#D97706] rounded-2xl">
+              <img src="./assets/BugDroid.png" alt="">
+              <span>${labels[0]}</span>
+            </button>
+          ` : ""}
+          ${labels && labels[1] ? `
+            <button class="btn bg-[#FFF8DB] hover:btn-accent text-[#D97706] rounded-2xl">
+              <img src="./assets/Lifebuoy.png" alt="">
+              <span>${labels[1]}</span>
+            </button>
+          ` : ""}
+        </div>
+      </div>
+      <hr class="mb-4 w-full border-gray-300">
+      <div class="px-6">
+        <p>${formattedAuthor}</p>
+        <p class="text-sm text-gray-500 flex items-center gap-2 pb-8">
+          <span>${formattedDate}</span>
+          ${formattedTime ? `
+            <span class="mx-1">at</span>
+            <span class="mx-1">${formattedTime}</span>
+          ` : ''}
+        </p>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
