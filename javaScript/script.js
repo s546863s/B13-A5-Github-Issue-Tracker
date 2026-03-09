@@ -191,7 +191,7 @@ function displayIssues(issues) {
 
 
     
-    <p class="text-sm text-gray-500 flex items-center gap-2 ">
+    <p class="text-sm text-gray-500 flex items-center gap-2 pb-8">
 <span>${new Date(updatedAt).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
 <span class="mx-1">at</span>
 <span class="mx-1">${new Date(updatedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</span>
