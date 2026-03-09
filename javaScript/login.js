@@ -1,5 +1,5 @@
 const loginDataSubmit = () =>{
-  fetch("../users/users.json")
+  fetch("../data/users/users.json")
   .then((res) => res.json())
   .then((users) => {
     const email = document.getElementById("user-name").value;
