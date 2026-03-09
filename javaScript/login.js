@@ -15,11 +15,14 @@ const loginDataSubmit = () =>{
 
       window.location.href = "./dashboard.html";
 
-      // alert("Login successful");
+      alert("Login successful");
 
 
     } else {
-      alert("Invalid Username or password");
+
+      const loginError = document.getElementById("login-error");
+      loginError.textContent = "Invalid Username or password";
+      // alert("Invalid Username or password");
     }
   });
 

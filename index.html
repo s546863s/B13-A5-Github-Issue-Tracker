@@ -44,14 +44,15 @@
       <form >
         <fieldset class="fieldset flex flex-col gap-4 p-10 items-center">
           <label class="label">Username:</label>
-          <input id="user-name" type="text" class="input" placeholder="Email" />
+          <input id="user-name" type="text" class="input" placeholder="Username" />
 
 
 
           <label class="label">Password:</label>
           <input id="password" type="password" class="input" placeholder="Password" />
           
-          <button onclick="loginDataSubmit()" type="button" class="btn btn-wide  mt-4 bg-[#4A00FF]">Login</button>
+          <h4 id="login-error" class="text-red-500 h-5 text-xl"></h4>
+          <button onclick="loginDataSubmit()" type="button" class="btn btn-wide btn-primary hover:btn-active  mt-4   hover:text-white ">Login</button>
           <div><p class="link link-hover">Username: admin <br>
 Password: admin123</p></div>
         </fieldset>
