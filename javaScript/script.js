@@ -140,7 +140,7 @@ function displayIssues(issues) {
     <div class="card-body">
       <div class="flex justify-between">
           <span class=" flex items-center gap-2">
-            ${status === "open" ? `<img width="22" src="./assets/Open-Status.png" alt="">` : `<img src="./assets/Closed- Status .png" alt="">`} <!-- status -->
+            ${status === "open" ? `<img width="22" src="./assets/Open-Status.png" alt="">` : `<img width="22" src="./assets/mamu.png" alt="">`} 
           </span>
           <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">${priority.toUpperCase()}</span> <!-- category -->
       </div>
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function() {
       performSearch();
     });
   }
-  
+
   // enter key press in search input field
   if (searchInput) {
     searchInput.addEventListener('keypress', function(e) {
@@ -271,14 +271,12 @@ function performSearch() {
 }
 
 
-// ============ মডেল ফাংশনালিটি ============
-
-// সিঙ্গেল ইস্যু ডাটা ফেচ করে মডেলে দেখানোর ফাংশন
+//Modal section started here
 async function fetchAndShowIssue(issueId) {
   const modal = document.getElementById('issue_modal');
   const modalContent = document.getElementById('modal-content');
   
-  // মডেল ওপেন করুন এবং লোডিং দেখান
+  // 
   modal.showModal();
   modalContent.innerHTML = `
     <div class="flex justify-center items-center py-10">
@@ -287,7 +285,7 @@ async function fetchAndShowIssue(issueId) {
   `;
 
   try {
-    // API কল করুন
+    // API 
     const response = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`);
     
     if (!response.ok) {
@@ -306,14 +304,14 @@ async function fetchAndShowIssue(issueId) {
     console.error('Error fetching issue:', error);
     modalContent.innerHTML = `
       <div class="text-center text-red-500 p-8">
-        <p>ডাটা লোড করতে সমস্যা হয়েছে</p>
+        <p>loding Error</p>
         <p class="text-sm mt-2">${error.message}</p>
       </div>
     `;
   }
 }
 
-// মডেলে ইস্যু ডাটা দেখানোর ফাংশন
+// modal issue data show funtion
 function displayIssueInModal(issue) {
   const modalContent = document.getElementById('modal-content');
   
@@ -330,7 +328,7 @@ function displayIssueInModal(issue) {
     updatedAt
   } = issue;
 
-  // ডেট ফরম্যাটিং
+  // date formatting function
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -343,7 +341,7 @@ function displayIssueInModal(issue) {
     });
   };
 
-  // অথর ফরম্যাটিং
+  
   const formattedAuthor = author ? author.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : 'Unknown';
   const formattedAssignee = assignee ? assignee.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : 'Not assigned';
 
@@ -480,7 +478,7 @@ function displayIssues(issues) {
           <span class="flex items-center gap-2">
             ${status === "open" 
               ? '<img width="22" src="./assets/Open-Status.png" alt="Open">' 
-              : '<img width="22" src="./assets/Closed-Status.png" alt="Closed">'
+              : '<img width="22" src="./assets/mamu.png" alt="Closed">'
             }
           </span>
           <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">
