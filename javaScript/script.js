@@ -1,3 +1,4 @@
+let allIssues = []; // Global variable to store all issues data
 // category Buttons funtionality started here
 
 
@@ -16,7 +17,7 @@ fetch("../data/categorys/categorys.json")
         "items-center",
         "gap-2",
         "my-6",
-        "category",
+       
       );
       categoryBtn.innerHTML = `
                 
@@ -36,31 +37,72 @@ fetch("../data/categorys/categorys.json")
 
 // category Buttons style add and remove funtionality
 
+
+
+
 document.getElementById("category-container").addEventListener("click", (e) => {
   const button = e.target.closest(".category");
+  if (!button) return; // If the click is outside a category button, do nothing
 
+
+  showSpinner();
+  setTimeout(() => { 
+
+const categoryBtns = document.querySelectorAll(".category");
   if (button) {
-    const categoryBtns = document.querySelectorAll(".category");
-
+    
     categoryBtns.forEach((btn) => btn.classList.remove("btn-primary"));
 
     button.classList.add("btn-primary");
+    if (allIssues.length === 0) {
+
+  
+    return;
   }
+    const category = button.innerText.toLowerCase().trim();
+
+ 
+
+    if(category === "all"){
+      
+      displayIssues(allIssues);
+    }
+      else{ 
+       
+        const filteredIssues = allIssues.filter(
+  issue => issue.status?.toLowerCase() === category
+);
+ 
+        displayIssues(filteredIssues);
+
+      }   
+  }
+ hideSpinner();
+  }, 300); // Simulate loading time for better UX
+
+
 });
 
 // category Buttons funtionality Ends here
 
 // card section started here
 
+function showSpinner(){
+  document.getElementById("loading-spinner").classList.remove("hidden");
+}
+
+function hideSpinner(){
+  document.getElementById("loading-spinner").classList.add("hidden");
+}
 // All Card data load from json file and show in 
 
-let allIssues = [];
+showSpinner();
 
 fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
 .then(res => res.json())
 .then(data => {
   allIssues = data.data;
-  
+  hideSpinner();
   displayIssues(allIssues);
 })
 
@@ -71,23 +113,6 @@ function displayIssues(issues) {
   container.innerHTML = "";
   issues.forEach(issue => {
     
-     /*
-{
-"id": 1,
-"title": "Fix navigation menu on mobile devices",
-"description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-"status": "open",
-"labels": [
-"bug",
-"help wanted"
-],
-"priority": "high",
-"author": "john_doe",
-"assignee": "jane_smith",
-"createdAt": "2024-01-15T10:30:00Z",
-"updatedAt": "2024-01-15T10:30:00Z"
-},
-    */
 
     const { title, description, category, status, labels, priority, author, assignee, createdAt, updatedAt  } = issue;
 
@@ -123,13 +148,13 @@ function displayIssues(issues) {
      
     <div class="mt-6 flex justify-between flex-wrap gap-2 ">
      ${labels?.[0] ? `
-<button class="btn bg-[#FFF8DB] text-[#D97706] rounded-2xl">
+<button class="btn bg-[#FECACA] hover:btn-accent text-[#D97706] rounded-2xl">
   <img src="./assets/BugDroid.png" alt="">
   <span>${labels[0]}</span>
 </button>
 ` : ""}
      ${labels?.[1] ? `
-<button class="btn bg-[#FFF8DB] text-[#D97706] rounded-2xl">
+<button class="btn bg-[#FFF8DB] hover:btn-accent text-[#D97706] rounded-2xl">
   <img src="./assets/Lifebuoy.png" alt="">
   <span>${labels[1]}</span>
 </button>
@@ -163,3 +188,4 @@ function displayIssues(issues) {
 }
 
 
+// category filter funtionality
