@@ -151,7 +151,7 @@ function displayIssues(issues) {
 
 
      
-    <div class="mt-6 flex justify-between flex-wrap gap-2 ">
+    <div class="mt-6 flex   gap-6 ">
      ${labels?.[0] ? `
 <button class="btn bg-[#FECACA] hover:btn-accent text-[#D97706] rounded-2xl">
   <img src="./assets/BugDroid.png" alt="">
@@ -489,7 +489,7 @@ function displayIssues(issues) {
           <h2 class="text-3xl font-bold">${title || 'No Title'}</h2>
           <p>${description || 'No Description'}</p>
         </div>
-        <div class="mt-6 flex justify-between flex-wrap gap-2">
+        <div class="mt-6 flex  flex-wrap gap-4">
           ${labels && labels[0] ? `
             <button class="btn bg-[#FECACA] hover:btn-accent text-[#D97706] rounded-2xl">
               <img src="./assets/BugDroid.png" alt="">
