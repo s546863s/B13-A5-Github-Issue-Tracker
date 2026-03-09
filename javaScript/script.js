@@ -1,3 +1,4 @@
+const issueCounter = document.getElementById("issue-count");
 let allIssues = []; // Global variable to store all issues data
 // category Buttons funtionality started here
 
@@ -64,15 +65,18 @@ const categoryBtns = document.querySelectorAll(".category");
  
 
     if(category === "all"){
-      
+      issueCounter.innerText = allIssues.length; // Update issue count for "All" category
       displayIssues(allIssues);
+      
     }
       else{ 
+        
        
         const filteredIssues = allIssues.filter(
   issue => issue.status?.toLowerCase() === category
 );
  
+issueCounter.innerText = filteredIssues.length; // Update issue count for selected category
         displayIssues(filteredIssues);
 
       }   
@@ -109,6 +113,7 @@ fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
 
 function displayIssues(issues) {
 
+  issueCounter.innerText = issues.length; // Update issue count based on the displayed issues
   const container = document.getElementById("card-container");
   container.innerHTML = "";
   issues.forEach(issue => {
@@ -189,3 +194,78 @@ function displayIssues(issues) {
 
 
 // category filter funtionality
+
+
+// search funtionality started here
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.getElementById("search-input"); 
+  const searchButton = document.getElementById("search-button"); 
+  
+  // search button click event
+  if (searchButton) {
+    searchButton.addEventListener('click', function() {
+      performSearch();
+    });
+  }
+  
+  // enter key press in search input field
+  if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
+});
+
+// search function
+function performSearch() {
+  const searchInput = document.getElementById("search-input");
+  const searchText = searchInput.value.trim();
+  
+  if (!searchText) {
+    alert("Please enter a search query.");
+    return;
+  }
+  
+  // spinner 
+  if (typeof showSpinner === 'function') {
+    showSpinner();
+  }
+  
+  // API call with search query
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(searchText)}`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      // hide spinner after getting response
+      if (typeof hideSpinner === 'function') {
+        hideSpinner();
+      }
+      
+      if (data && data.data) {
+        displayIssues(data.data); // existing displayIssues ফাংশন 
+      } else {
+        document.getElementById("card-container").innerHTML = `
+          <p class="text-center text-gray-500 col-span-3">No results found</p>
+        `;
+      }
+    })
+    .catch(error => {
+      // hide spinner on error as well
+      if (typeof hideSpinner === 'function') {
+        hideSpinner();
+      }
+      
+      console.error("Search error:", error);
+      document.getElementById("card-container").innerHTML = `
+        <p class="text-center text-red-500 col-span-3">Searching Error</p>
+      `;
+    });
+}
