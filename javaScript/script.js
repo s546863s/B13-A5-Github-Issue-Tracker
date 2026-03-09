@@ -92,75 +92,27 @@ function displayIssues(issues) {
     const { title, description, category, status, labels, priority, author, assignee, createdAt, updatedAt  } = issue;
 
 
-   
+   const  isOpen = status === "open";
     
-    /*
-    <div class="card w-96 bg-base-100 shadow-sm">
-  <div class="card-body">
-    <div class="flex justify-between">
-        <span class=" flex items-center gap-2">
-          status
-          <img width="22" src="./assets/Open-Status.png" alt="">
-
-          <img src="./assets/Closed- Status .png" alt="">
-        </span>
-        <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">priority</span>
-
-
-
-    </div>
-    <div class="flex flex-col gap-2">
-      <h2 class="text-3xl font-bold">title</h2>
-      <p>description</p>
-    </div>
-    
-    <div class="mt-6 flex gap-2 ">
-      <button class="btn  bg-[#FECACA] text-[#EF4444] rounded-2xl hover:bg-primary hover:text-white">
-
-        labels <img src="./assets/BugDroid.png" alt="">
-        <span>
-
-          
-        </span>
-
-    
-        </button>
-      <button class="btn  bg-[#FFF8DB] text-[#D97706] rounded-2xl hover:bg-primary hover:text-white">
-
-        labels 
-        <img src="./assets/Lifebuoy.png" alt="">
-        <span>
-
-          
-        </span>
-
-    
-        </button>
-      
-    </div>
-   
-  </div>
-   <hr class="mb-4 w-full border-gray-300 ">
-   <div class="px-6">
-    <p>author</p>
-    <p>updatedAt</p>
-
-   </div>
-</div>
-
-    */
-
 
     const card = document.createElement("div");
-    
-    card.classList.add("card","bg-base-100", "shadow-sm");
+    card.classList.add(
+  "card",
+  "bg-base-100",
+  "shadow-sm",
+  ...(
+    isOpen 
+      ? ["border-t-4", "border-green-300"] 
+      : ["border-t-4", "border-blue-300"]
+  )
+); // Add border color based on status
     card.innerHTML = `
     <div class="card-body">
       <div class="flex justify-between">
           <span class=" flex items-center gap-2">
             ${status === "open" ? `<img width="22" src="./assets/Open-Status.png" alt="">` : `<img src="./assets/Closed- Status .png" alt="">`} <!-- status -->
           </span>
-          <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">${priority}</span> <!-- category -->
+          <span class="badge badge-xs badge-warning bg-[#FECACA] text-[#EF4444] px-6 py-3 font-bold border-0">${priority.toUpperCase()}</span> <!-- category -->
       </div>
       <div class="flex flex-col gap-2">
         <h2 class="text-3xl font-bold">${title}</h2> <!-- title -->
